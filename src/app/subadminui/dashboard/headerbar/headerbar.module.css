@@ -1,0 +1,16 @@
+.headerContainer {
+  height: 3rem; /* Equivalent to h-16, 1rem = 16px */
+  padding-left: 0.5rem; /* Equivalent to px-4 */
+  padding-right: 0.5rem; /* Equivalent to px-4 */
+  display: flex; /* Equivalent to flex */
+  justify-content: space-between; /* Equivalent to justify-between */
+  align-items: center; /* Equivalent to items-center */
+  /* border-width: 1px; Equivalent to border */
+  /* border-style: solid; Equivalent to border */
+  /* border-color: #EF4444; Equivalent to border-red-500 */
+  border-radius: 10px;
+  /* background-color: var(--bgSoft); */
+  /* border: 2px solid red; */
+  color: white;
+  font-weight: 500;
+}

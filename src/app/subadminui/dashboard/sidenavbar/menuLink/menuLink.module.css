@@ -1,0 +1,14 @@
+.menuContainer{
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0px;
+  border-radius: 10px;
+  color: white;
+  font-size: large;
+}
+
+.menuContainer:hover,.active{
+  background-color: #2e374a;
+}

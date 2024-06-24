@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/rootadmin/rootadminlogin/page.js", "src/app/subadmin/auth-token/page.jsx", "src/app/subadmindashboard/layout.jsx", "src/app/subadmindashboard/contests/designquestions/page.jsx", "src/workspace/Workspace.jsx", "src/app/editorworkspace/page.jsx", "src/app/rootadmin/rootadminlogin/Login.jsx", "src/app/subadmin/hasauthtoken/HasAuthToken.jsx", "src/app/subadmin/requestform/RequestForm.jsx"],
+  "exclude": ["node_modules"]
+}
