@@ -25,7 +25,7 @@ function HasAuthToken() {
     axios.post('http://localhost:8080/api/auth/validate',null, { 
       params: { 
         token,
-        role:"subadmin"
+        role:"SUBADMIN"
        },
       withCredentials: true // This line is important
     })
@@ -66,7 +66,7 @@ function HasAuthToken() {
            >
 
               <h3 className='text-lg font-medium text-white  border-purple-500'>Registering as a Sub Admin?</h3>
-              <h3 className='text-lg text-wrap text-white border border-yellow-400'>Need to authenticate using the Authentication Token Number</h3>
+              <h3 className='text-lg font-bold text-wrap text-white  border-yellow-400'>You are required to authenticate using the Authentication Token Number</h3>
 
               {/* Authentication Token */}
               <div>
@@ -77,7 +77,7 @@ function HasAuthToken() {
                 name='authToken' 
                 id='authToken' 
                 className='
-                border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-500 text-white ' 
+                border-2 outline-none sm:text-sm rounded-lg focus:ring-orange-600 focus:border-blue-500 block w-full p-1 bg-gray-600 border-gray-500 placeholder-gray-500 text-white ' 
                 placeholder='Authentication Number'
                 value={token}
                 onChange={(e)=>setToken(e.target.value)}

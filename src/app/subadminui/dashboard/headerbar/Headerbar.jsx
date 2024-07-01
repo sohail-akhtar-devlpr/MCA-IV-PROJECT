@@ -1,16 +1,31 @@
 "use client"
 import { Menu, Popover, Transition } from '@headlessui/react'
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import classNames from 'classnames'
 import styles from './headerbar.module.css'
 import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import userimage from '@/components/Project-Image/avatar.png'
 import { HiOutlineBell } from 'react-icons/hi'
+import {capitalize} from '@/utils/Capitalize/CapitalizeFirstLetter'
+
+import { useDispatch, useSelector } from 'react-redux'
+import {fetchSubadminData} from '@/app/FetchData/fetchSubadminData'
 
 function Headerbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector( (state)=>state.subadminUser.userInfo )
+  const email = useSelector((state) => state.auth.username);
+
+  useEffect( ()=>{
+    if(email){
+      fetchSubadminData(dispatch, email)
+    }
+  },[dispatch, email] )
+
+  console.log("USER INFO: ",user);
 
   const navigate = (path) => {
     router.push(path);
@@ -62,8 +77,16 @@ function Headerbar() {
           <div>
             <Menu.Button className="ml-2 inline-flex rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400">
               <span className='sr-only'>Open User Menu</span>
-              <div className=''>
-                <Image className='mt-1' src={userimage} width="40" height="40" alt="User avatar" />
+              <div className=' border-green-500 flex items-center justify-center gap-1'>
+                <div className='flex flex-col items-center justify-center'>
+                  <div className='flex items-center justify-center gap-0.5'>
+                    <div>{capitalize(user?.firstName) || "XYZ"}</div>
+                    <div>{capitalize(user?.middleName)}</div>
+                    <div>{capitalize(user?.lastName) || "XYZ"}</div>
+                  </div>
+                  <div className='text-green-500 text-sm font-bold'>{user?.role || "XYZ"}</div>
+                </div>
+                <Image className='mt-1' src={user?.profilePicture || userimage} width="40" height="40" alt="User avatar" />
               </div>
               <span className='sr-only'>screen reader</span>
             </Menu.Button>

@@ -20,7 +20,7 @@ function TokenAuthentication() {
       axios.post('http://localhost:8080/api/auth/validate',null, { 
         params: { 
           token,
-          role:"rootadmin"
+          role:"ROOTADMIN"
          },
         withCredentials: true // This line is important
       })
