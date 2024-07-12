@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/rootadmin/rootadminlogin/page.js", "src/app/subadmin/auth-token/page.jsx", "src/app/subadmindashboard/layout.jsx", "src/app/subadmindashboard/contests/designquestions/page.jsx", "src/workspace/Workspace.jsx", "src/app/editorworkspace/page.jsx", "src/app/rootadmin/rootadminlogin/Login.jsx", "src/app/subadmin/hasauthtoken/HasAuthToken.jsx", "src/app/subadmin/requestform/RequestForm.jsx", "src/app/subadmin/subadminsignin/Signin.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/rootadmin/rootadminlogin/page.js", "src/app/subadmin/auth-token/page.jsx", "src/app/subadmindashboard/layout.jsx", "src/app/subadmindashboard/contests/designquestions/page.jsx", "src/workspace/Workspace.jsx", "src/app/editorworkspace/page.jsx", "src/app/rootadmin/rootadminlogin/Login.jsx", "src/app/subadmin/hasauthtoken/HasAuthToken.jsx", "src/app/subadmin/requestform/RequestForm.jsx", "src/app/subadmin/subadminsignin/Signin.jsx", "src/app/layout.jsx"],
   "exclude": ["node_modules"]
 }

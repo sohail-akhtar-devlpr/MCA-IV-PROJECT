@@ -150,27 +150,35 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import logo from '@/components/Project-Image/oblique shape.jpg';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/Security/AuthContext';
 
 function SideNavbar() {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const authContext = useAuth();
+
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();  const router = useRouter();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      const response = await axios.post('http://localhost:8080/subadmin/logout', {}, {
+      axios.post('http://localhost:8080/subadmin/logout', {}, {
         withCredentials: true, // Include cookies in the request
-      });
+      })
+      .then( (response)=>{
+        if (response.status === 200) {
 
-      if (response.status === 200) {
+          authContext.logout();
 
-        // Dispatch the logout action to update the Redux state
-        dispatch(logout());
-
-        // Redirect to the login page after successful logout
-        router.push('/subadmin/subadminsignin');
-      } else {
-        console.error('Logout failed');
-      }
+          // Dispatch the logout action to update the Redux state
+          dispatch(logout());
+  
+          // Redirect to the login page after successful logout
+          router.push('/subadmin/subadminsignin');
+        }
+      } )
+      .catch( (error)=>{
+        console.error('Logout failed',error);
+      } );
     } catch (error) {
       console.error('Error logging out:', error);
     }

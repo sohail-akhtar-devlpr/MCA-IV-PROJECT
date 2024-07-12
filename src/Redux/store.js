@@ -1,13 +1,26 @@
-// store.js
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './Features/authSlice';
-import subadminUserReducer from './Features/subadminUserSlice'
+import authSlice from './Features/authSlice';
+import fetchSubadminDataSlice from './Features/fetchSubadminDataSlice'
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    subadminUser: subadminUserReducer,
-  }
-});
+//IMP: DONT DELETE THIS COMMENTED CODE
+//store variable is a global variable.
+//hence it will not work, because in the server a global variable will be created, but as we know server is a sharable resuource, hence different user's browsers should have their own independent store.
+//Therefore dont do this thing in next js.
 
-export default store;
+// const store = configureStore({
+//   reducer: {
+//     auth: authSlice,
+//     subadminData: fetchSubadminDataSlice,
+//   },
+// });
+
+export const makeStore = ()=>{
+  return configureStore({
+    reducer: {
+      auth: authSlice,
+      subadminData: fetchSubadminDataSlice,
+    },
+  });
+}
+
+export default makeStore;

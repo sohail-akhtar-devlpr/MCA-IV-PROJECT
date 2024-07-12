@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+// import { useAuth } from '@/Security/AuthContext';
+
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request) {
@@ -7,6 +9,8 @@ export async function middleware(request) {
   // const isLoggedIn = 'false';
 
   const url = new URL(request.url);
+
+  // const authContext = useAuth();
 
   const path = request.nextUrl.pathname;
 
@@ -37,6 +41,8 @@ export async function middleware(request) {
 
       if(isPublicPath && token && role==='SUBADMIN'){
         console.log("PUBLIC PATH ME ENTERED HOGYA");
+        // authContext.setToken(token);
+        // console.log("jwt token in middleware::",jwtToken);
         return NextResponse.redirect(new URL('/subadmindashboard',request.nextUrl))
       }
 
@@ -55,6 +61,7 @@ export async function middleware(request) {
           }
         } else if (role === 'SUBADMIN') {
             if (url.pathname.startsWith('/subadmin')) {
+              console.log('/subadmin');
               return NextResponse.next();
             }
         }

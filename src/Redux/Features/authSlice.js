@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoggedIn: false,
-  username: '',
-  password: ''
+  user: null,
 };
 
 const authSlice = createSlice({
@@ -12,16 +11,47 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.isLoggedIn = true;
-      state.username = action.payload.username;
-      state.password = action.payload.password;
+      state.user = action.payload;
     },
-    logout: (state) => {
+    logout: (state,action) => {
       state.isLoggedIn = false;
-      state.username = '';
-      state.password = '';
+      state.user = null;
     }
   }
 });
 
 export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;
+
+
+
+
+
+// // features/loginSlice.js
+// import { createSlice } from '@reduxjs/toolkit';
+
+// const initialState = {
+//   isLoggedIn: false,
+//   username: '',
+//   password: ''
+// };
+
+// const loginSlice = createSlice({
+//   name: 'login',
+//   initialState,
+//   reducers: {
+//     login: (state, action) => {
+//       state.isLoggedIn = true;
+//       state.username = action.payload.username;
+//       state.password = action.payload.password;
+//     },
+//     logout: (state) => {
+//       state.isLoggedIn = false;
+//       state.username = '';
+//       state.password = '';
+//     }
+//   }
+// });
+
+// export const { login, logout } = loginSlice.actions;
+// export default loginSlice.reducer;

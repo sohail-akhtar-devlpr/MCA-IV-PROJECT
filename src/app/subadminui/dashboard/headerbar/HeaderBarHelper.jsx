@@ -1,6 +1,6 @@
 "use client";
 import { Menu, Popover, Transition } from '@headlessui/react';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import styles from './headerbar.module.css';
 import { usePathname, useRouter } from 'next/navigation';
@@ -11,9 +11,16 @@ import { capitalize } from '@/utils/Capitalize/CapitalizeFirstLetter';
 import ProfileModal from '@/app/subadminui/dashboard/headerbar/ProfileModal';
 import { useAppDispatch, useAppSelector } from '@/Redux/hooks';
 import { useAuth } from '@/Security/AuthContext';
-import axios from 'axios';
 
-function Headerbar() {
+function HeaderbarHelper() {
+
+  const authContext = useAuth();
+  console.log(authContext);
+  console.log("Step 2--");
+
+  const jwtToken = authContext.token;
+
+  console.log("AuthContext jwt token::",jwtToken);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -21,53 +28,40 @@ function Headerbar() {
   const [post, setPost] = useState(null);
   const dispatch = useAppDispatch();
 
-  const authContext = useAuth();
-  console.log("AUTHCONTEXT::",authContext);
-
-  const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    // console.log("VALUE::", value);
+  const getPostById = async () => {
+    if(jwtToken){
+      try {
+        const response = await fetch('http://localhost:8080/subadmin/subadmininfo', {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          credentials: 'include',
+        });
   
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      const token = parts.pop().split(';').shift();
-      authContext.setAuthenticated(true);
-      authContext.setToken(token);
-      return token;
-    } else {
-      console.log("ERROR FETCHING TOKEN");
-      return null;
-    }
-  };
-  
-  useEffect(() => {
-    const token = getCookie('jwtToken');
-    // console.log("TOKEN::", token);
-  
-    if (token) {
-      axios.get('http://localhost:8080/subadmin/subadmininfo', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      })
-      .then(response => {
-        const data = response.data;
-        console.log("DATA::", data);
-        setPost(data);
-      })
-      .catch(error => {
+        if (response.ok) {
+          const data = await response.json();
+          console.log("DATA::",data)
+          setPost(data);
+          console.log("use state before logout::",data);
+          
+        } else {
+          console.error('Failed to fetch post:', response.statusText);
+        }
+      } catch (error) {
         console.error('Error fetching post:', error);
-      });
-  
-    } else {
-      console.log("ERROR FETCHING TOKEN");
+      }
+    }else{
+      router.push("/subadmin/subadminsignin");
     }
-  }, []);
-  
+    
+  };
 
-  // const loginInfo = useAppSelector((state) => state.auth);
-  // // console.log("LOGIN INFO:::", loginInfo);
+  useEffect(() => {
+    getPostById();
+  }, []);
+
+  const loginInfo = useAppSelector((state) => state.auth);
+  console.log("LOGIN INFO:::", loginInfo);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -146,4 +140,4 @@ function Headerbar() {
   );
 }
 
-export default Headerbar;
+export default HeaderbarHelper;
