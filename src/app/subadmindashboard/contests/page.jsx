@@ -27,8 +27,17 @@ function Contestpage() {
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
           <FaArrowCircleRight />
         </div>
-        <Link href="/subadmindashboard/contests/createcontest" className='text-white text-lg font-semibold hover:underline pl-2'>
+        <Link href="/subadmindashboard/contests/designquestions" className='text-white text-lg font-semibold hover:underline pl-2'>
           Create Questions
+        </Link>
+      </div> 
+
+      <div className='flex items-center ml-5'>
+        <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
+          <FaArrowCircleRight />
+        </div>
+        <Link href="/subadmindashboard/contests/contestrules" className='text-white text-lg font-semibold hover:underline pl-2'>
+          Contest Rules
         </Link>
       </div> 
 

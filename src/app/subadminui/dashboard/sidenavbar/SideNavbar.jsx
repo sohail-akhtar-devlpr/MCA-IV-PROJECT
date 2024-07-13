@@ -189,7 +189,7 @@ function SideNavbar() {
       {/* logo */}
       <div className="flex items-center gap-2 px-1 py-1 border-red-500">
         <div className="w-10 h-10 relative">
-          <Image className="rounded-full object-cover" src={logo} layout="fill" />
+          <Image className="rounded-full object-cover" src={logo} fill alt='LOGO' />
         </div>
         <span className='flex flex-col items-center text-left font-bold text-white mr-5 shadow-sm shadow-green-400'>
           Computer Science <span>Society, AMU</span>

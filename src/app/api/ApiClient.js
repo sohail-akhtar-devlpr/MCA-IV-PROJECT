@@ -6,14 +6,14 @@ const apiClient = axios.create(
   }
 )
 
-const setAuthToken = (token) => {
-  apiClient.interceptors.request.use(
-    (config) => {
-      console.log('intercepting and adding a token');
-      config.headers.Authorization = token;
-      return config;
-    }
-  );
-};
+// const setAuthToken = (token) => {
+//   apiClient.interceptors.request.use(
+//     (config) => {
+//       console.log('intercepting and adding a token');
+//       config.headers.Authorization = token;
+//       return config;
+//     }
+//   );
+// };
 
-export { apiClient, setAuthToken };
+export { apiClient};

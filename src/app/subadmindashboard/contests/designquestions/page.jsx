@@ -14,6 +14,9 @@ function DesignQuestionPage() {
   //states for Constraints
   const [constraints, setConstraints]=useState([" "]);
 
+  // Contest is live or not
+  const [isLive, setLive] = useState(false);
+
   // FOR TESTING PURPOSE OF DYNAMIC ADD/REMOVE INPUTS
   // const handleInputChange=(e,index)=>{
   //   const{name,value}=e.target;
@@ -81,7 +84,8 @@ function DesignQuestionPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center border border-yellow-400">
+    isLive ? (
+      <div className="flex flex-col items-center justify-center border border-yellow-400">
       <div className="text-lg text-white font-bold">A Contest with Contest Number 123 is Live</div>
       <div className="text-lg text-white p-4 font-bold">No Contest is Live. Please Create a Contest creating the questions</div>
       <form className="border border-green-500 w-3/4 mb-4 space-y-8 rounded-lg px-4 h-96 overflow-y-auto">
@@ -239,6 +243,15 @@ function DesignQuestionPage() {
       </div>
       </form>
     </div>
+    ):(
+      <>
+        <div className="text-yellow-700 px-4 py-3 rounded relative" role="alert">
+        <strong className="text-red-500 text-lg font-bold">No contest is currently live.</strong>
+        <span className="text-white font-semibold block sm:inline"> Kindly create a contest before proceeding.</span>
+        <span className="text-yellow-500 font-semibold block sm:inline"> Note: You cannot create questions until a contest is live.</span>
+      </div>
+      </>
+    )
   );
 }
 

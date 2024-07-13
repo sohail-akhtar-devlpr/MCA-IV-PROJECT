@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useContext, useState } from "react";
 import {signinApiService} from '@/app/api/SigninApiService'
-import { apiClient } from "@/app/api/ApiClient";
+// import { apiClient } from "@/app/api/ApiClient";
 import showToast from '@/utils/Toast/showToast';
 
 // 1. create a context
@@ -117,32 +117,34 @@ export default function AuthProvider({children}){
   //   }
   // }
 
-  function login(username, password) {
+  async function login(username, password) {
+    // console.log("ENTERED IN LOGIN");
     return signinApiService(username, password)
       .then(response => {
-        console.log("RESPONSE IN SIGNINAPI SERVICE::", response);
-        console.log("RESPONSE.STATUS::", response.status);
+        // console.log("RESPONSE IN SIGNINAPI SERVICE::", response);
+        // console.log("RESPONSE.STATUS::", response.status);
         
         if (response.status === 202) {
-          console.log("ENTERED IN THE RESPONSE");
+          // console.log("ENTERED IN THE RESPONSE");
           const jwtToken = 'Bearer ' + response.data.jwt;
+          // console.log("TOKEN GETS GENERATED::",jwtToken)
           setAuthenticated(true);
           setUsername(username);
           setToken(response.data.jwt);
           
           // On every apiClient, intercept the calls and set the authorization header
-          apiClient.interceptors.request.use(
-            (config) => {
-              console.log("Intercepting and adding a token");
-              config.headers.Authorization = jwtToken;
-              return config;
-            }
-          );
+          // apiClient.interceptors.request.use(
+          //   (config) => {
+          //     console.log("Intercepting and adding a token");
+          //     config.headers.Authorization = jwtToken;
+          //     return config;
+          //   }
+          // );
           
           return true;
         } else {
           // Repeated code, therefore use logout, because the code is same as logout.
-          console.log("ENTERED IN ELSE");
+          // console.log("ENTERED IN ELSE");
           logout();
           return false;
         }
@@ -157,7 +159,8 @@ export default function AuthProvider({children}){
           } else if (error.response.status === 404) {
             showToast('error', 'No User Found with this Email !!');
           } else if(error.response.status === 400 && error.response.data){
-            showToast('error', 'Invalid Email Format !!');
+            console.log("ERROR:: ",error.response.data);
+            throw { data: error.response.data };
           }
           else {
             showToast('error', 'Something went wrong, please try later!');

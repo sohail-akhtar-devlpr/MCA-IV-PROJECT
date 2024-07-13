@@ -1,15 +1,4 @@
-"use client";
-import React, { useState } from 'react';
-import { MdAccessTime } from "react-icons/md";
-import PrizeModal from '@/app/subadmindashboard/contests/createcontest/PrizeModal';
-import OrganizerModal from '@/app/subadmindashboard/contests/createcontest/OrganizerModal';
-import PrizeTable from '@/app/subadmindashboard/contests/createcontest/PrizeTable';
-import OrganizerTable from '@/app/subadmindashboard/contests/createcontest/OrganizerTable';
-
-function CreateContestpage() {
-  //PRIZE
-  const [rows, setRows] = useState([
-    // {
+// {
     //   prizeRank: "First Rank",
     //   prizeName: "JetBrains All Products Pack",
     //   prizeDescription: "A license for professional software development tools.",
@@ -30,11 +19,7 @@ function CreateContestpage() {
     //   prizeCategory: "Software Development",
     //   prizeValue: "1000"
     // }
-  ]);
-
-  //ORGANIZER
-  const [organizerRows, setOrganizerRows] = useState([
-    // {
+     // {
     //   contestNumber: "2",
     //   organizerName: "Aligarh Muslim University",
     //   organizerType: "Educational Institute",
@@ -50,8 +35,29 @@ function CreateContestpage() {
     //   mobileNumber: "8077659931",
     //   email:"sa4512225@gmail.com"
     // },
-  ]);
+"use client";
+import React, { useState } from 'react';
+import { MdAccessTime } from "react-icons/md";
+import PrizeModal from '@/app/subadmindashboard/contests/createcontest/PrizeModal';
+import OrganizerModal from '@/app/subadmindashboard/contests/createcontest/OrganizerModal';
+import PrizeTable from '@/app/subadmindashboard/contests/createcontest/PrizeTable';
+import OrganizerTable from '@/app/subadmindashboard/contests/createcontest/OrganizerTable';
+import axios from 'axios';
+import { useAuth } from '@/Security/AuthContext';
+import showToast from '@/utils/Toast/showToast';
 
+function CreateContestpage() {
+
+  const [errors, setErrors] = useState({});
+   //PRIZE
+
+   const [prizeRows, setRows] = useState([]);
+  //  console.log("Prize Rows::",prizeRows)
+
+   //ORGANIZER
+  const [organizerRows, setOrganizerRows] = useState([]);
+  // console.log("Organizer Rows::",organizerRows)
+  
   //PRIZE
   const [prizeModalOpen, setPrizeModalOpen] = useState(false);
   const [rowtoEdit, setRowtoEdit] = useState(null);
@@ -59,6 +65,29 @@ function CreateContestpage() {
   //ORGANIZER
   const [organizerModalOpen, setOrganizerModalOpen] = useState(false);
   const [organizerrowtoEdit, setOrganizerRowtoEdit] = useState(null);
+
+  //useState for handling the form data
+  const initialFormData = {
+    contestNumber: '',
+    contestName: '',
+    contestType: '',
+    contestDate: '',
+    contestTime: '',
+    contestVenue: '',
+    status: "created",
+    contestOrganizer: [],
+    prize: [],
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  //instead of creating different handleChange create just one.
+  const handleChange = (e)=>{
+    const {name, value} = e.target;
+    // console.log("NAME::",name)
+    setFormData({...formData, [name]:value});
+  }
+
 
   //PRIZE
   const handleEditButton = (idx) => {
@@ -74,7 +103,7 @@ function CreateContestpage() {
 
   //PRIZE
   const handleDeleteRow = (targetIndex) => {
-    setRows(rows.filter((_, idx) => idx !== targetIndex));
+    setRows(prizeRows.filter((_, idx) => idx !== targetIndex));
   };
 
   //ORGANIZER
@@ -85,9 +114,9 @@ function CreateContestpage() {
   //PRIZE
   const handleAddMorePrizes = (newRow) => {
     if (rowtoEdit === null) {
-      setRows([...rows, newRow]);
+      setRows([...prizeRows, newRow]);
     } else {
-      setRows(rows.map((currRow, idx) => {
+      setRows(prizeRows.map((currRow, idx) => {
         return idx === rowtoEdit ? newRow : currRow;
       }));
       setRowtoEdit(null); // Reset rowtoEdit after editing
@@ -106,47 +135,131 @@ function CreateContestpage() {
     }
   };
 
+ //AuthContext to get the token
+ const auth = useAuth();
+ const token = auth.token;
+//  console.log("token in the create contest page::",token)
+
+  const handleCreateContestSubmit = (e)=>{
+    e.preventDefault();
+    setErrors({});
+
+    const formDataToSubmit = {
+      ...formData,
+      prize: prizeRows,
+      contestOrganizer: organizerRows,
+  };
+  console.log("FORM DATA::",formDataToSubmit);
+    axios.post('http://localhost:8080/subadmin/create/contest', formDataToSubmit, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + `${token}`
+    },
+    withCredentials:true
+  })
+  .then(response => {
+
+    if (response.status === 201) {
+      showToast('success', 'Contest Created Successfully');
+      setFormData(initialFormData);
+    }
+  })
+  .catch(error => {
+
+    if (error.response) {
+      if (error.response.status === 400 && error.response.data) {
+        setErrors(error.response.data);
+        showToast('error', 'Some fields are mandatory to fill Look the form');
+
+      } else if (error.response.status === 409) {
+        showToast('error', 'This Contest Number Already Exist');x
+      } else {
+        showToast('error', 'Something went wrong while creating the contest, Please try again.');
+      }
+    }
+  });
+  }
+
   return (
     <div className="flex flex-col items-center justify-center w-full  border-yellow-400 border-solid">
       <div className="text-lg text-white p-4 font-bold">Fill all the required Contest Information.</div>
-      <form className=" border-red-500 w-3/4 mt-4 mb-4 space-y-8 rounded-lg px-4 h-96 overflow-y-auto">
+      <form className=" border-red-500 w-3/4 mt-4 mb-4 space-y-8 rounded-lg px-4 h-96 overflow-y-auto" onSubmit={handleCreateContestSubmit }>
         {/* Existing form fields */}
         <div>
           <label htmlFor="contestNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Number</label>
-          <input type="text" id="contestNumber" className="block w-24 p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          <input 
+            type="text" 
+            id="contestNumber" 
+            name='contestNumber'
+            className="block w-24 p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            value={formData.contestNumber} 
+            onChange={handleChange} />
+            {errors.contestNumber && <p className='text-red-500'>{errors.contestNumber}</p>}
         </div>
 
         <div>
           <label htmlFor="contestName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Name</label>
-          <input type="text" id="contestName" className="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          <input
+            type="text" 
+            id="contestName"
+            name='contestName' 
+            className="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            value={formData.contestName} 
+            onChange={handleChange}/>
+            {errors.contestName && <p className='text-red-500'>{errors.contestName}</p>}
         </div>
 
         <div>
           <label htmlFor="contestType" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Type</label>
-          <select id="contestType" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option>Solo</option>
-            <option>Duo</option>
-            <option>Members(3-4)</option>
-            <option>Group</option>
+          <select 
+            id="contestType"
+            name='contestType' 
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            value={formData.contestType} 
+            onChange={handleChange}>
+            <option value="" disabled>Select a type</option>
+            <option value="Solo">Solo</option>
+            <option value="Duo">Duo</option>
+            <option value="Members(3-4)">Members(3-4)</option>
+            <option value="Group">Group</option>
           </select>
+          {errors.contestType && <p className='text-red-500'>{errors.contestType}</p>}
         </div>
 
         <div>
-          <label htmlFor="contestDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Date</label>
-          <input type='date' id="contestDate" className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          <label htmlFor="contestDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Date <span>(Or add later in contest rules segment)</span></label>
+          <input 
+            type='date' 
+            id="contestDate"
+            name='contestDate' 
+            className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            value={formData.contestDate} 
+            onChange={handleChange}/>
         </div>
 
         <div>
           <div className='flex items-center gap-x-1'>
-            <label htmlFor="contestTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Time</label>
+            <label htmlFor="contestTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Time <span>(Or add later in contest rules segment)</span></label>
             <div className='relative top-[-4px]'><MdAccessTime /></div>
           </div>
-          <input type='time' id="contestTime" className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          <input 
+            type='time' 
+            id="contestTime" 
+            name='contestTime'
+            className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            value={formData.contestTime} 
+            onChange={handleChange}/>
         </div>
 
         <div>
-          <label htmlFor="contestVenue" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Venue</label>
-          <textarea id="contestVenue" rows={4} className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          <label htmlFor="contestVenue" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Venue <span>(Or add later in contest rules segment)</span></label>
+          <textarea 
+            id="contestVenue" 
+            name='contestVenue'
+            rows={4} 
+            className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+            value={formData.contestVenue} 
+            onChange={handleChange}/>
         </div>
 
         <div>
@@ -159,10 +272,10 @@ function CreateContestpage() {
         {/* PRIZE */}
         {/* Displaying the prize table based on condition */}
         {
-          rows.length>0 && (
+          prizeRows.length>0 && (
             // Prize table
             <div>
-            <PrizeTable rows={rows} deleteRow={handleDeleteRow} editRow={handleEditButton} />
+            <PrizeTable rows={prizeRows} deleteRow={handleDeleteRow} editRow={handleEditButton} />
             
             {/* table add button */}
             <div className='flex justify-center items-center mt-2'>
@@ -189,7 +302,7 @@ function CreateContestpage() {
             <div>
             <OrganizerTable rows={organizerRows} deleteRow={handleOrganizerDeleteRow} editRow={handleOrganizerEditButton} />
             
-            {/* table add button */}
+            {/* Organizer add button */}
             <div className='flex justify-center items-center mt-2'>
             <button type='button'
               className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500"
@@ -200,7 +313,7 @@ function CreateContestpage() {
         }
 
         <div className="flex justify-center">
-          <button type="button" className="w-30 dark:bg-gray-700 rounded-lg p-2 border border-gray-400 shadow-orange-500 shadow-sm hover:border-fuchsia-500">
+          <button type="submit" className="w-30 dark:bg-gray-700 rounded-lg p-2 border border-gray-400 shadow-orange-500 shadow-sm hover:border-fuchsia-500">
             Create Contest
           </button>
         </div>
@@ -215,7 +328,7 @@ function CreateContestpage() {
           }}
           addMorePrizes={handleAddMorePrizes}
           defaultValue={
-            rowtoEdit !== null ? rows[rowtoEdit] : null
+            rowtoEdit !== null ? prizeRows[rowtoEdit] : null
           } />
       }
 

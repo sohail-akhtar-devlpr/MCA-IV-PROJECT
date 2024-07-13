@@ -9,65 +9,57 @@ import userimage from '@/components/Project-Image/avatar.png';
 import { HiOutlineBell } from 'react-icons/hi';
 import { capitalize } from '@/utils/Capitalize/CapitalizeFirstLetter';
 import ProfileModal from '@/app/subadminui/dashboard/headerbar/ProfileModal';
-import { useAppDispatch, useAppSelector } from '@/Redux/hooks';
+// import { useAppDispatch, useAppSelector } from '@/Redux/hooks';
 import { useAuth } from '@/Security/AuthContext';
 import axios from 'axios';
 
 function Headerbar() {
-
   const pathname = usePathname();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [post, setPost] = useState(null);
-  const dispatch = useAppDispatch();
-
   const authContext = useAuth();
-  console.log("AUTHCONTEXT::",authContext);
 
-  const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    // console.log("VALUE::", value);
-  
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      const token = parts.pop().split(';').shift();
+  // console.log("AUTHCONTEXT::",authContext);
+
+  const getCookie = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/fetch-jwt-auth/token", { withCredentials: true });
+      // console.log("FETCH JWT ::", response.data);
       authContext.setAuthenticated(true);
-      authContext.setToken(token);
-      return token;
-    } else {
-      console.log("ERROR FETCHING TOKEN");
-      return null;
+      authContext.setToken(response.data);
+    } catch (error) {
+      console.log("ERROR FETCHING COOKIE", error);
     }
   };
-  
-  useEffect(() => {
-    const token = getCookie('jwtToken');
-    // console.log("TOKEN::", token);
-  
-    if (token) {
-      axios.get('http://localhost:8080/subadmin/subadmininfo', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      })
-      .then(response => {
-        const data = response.data;
-        console.log("DATA::", data);
-        setPost(data);
-      })
-      .catch(error => {
-        console.error('Error fetching post:', error);
-      });
-  
-    } else {
-      console.log("ERROR FETCHING TOKEN");
-    }
-  }, []);
-  
 
-  // const loginInfo = useAppSelector((state) => state.auth);
-  // // console.log("LOGIN INFO:::", loginInfo);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getCookie();
+      const token = authContext.token;
+      // console.log("USE CONTEXT TOKEN::", token);
+
+      if (token) {
+        try {
+          const response = await axios.get('http://localhost:8080/subadmin/subadmininfo', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          });
+          const data = response.data;
+          // console.log("DATA::", data);
+          setPost(data);
+        } catch (error) {
+          console.error('Error fetching post:', error);
+        }
+      } else {
+        console.log("ERROR FETCHING TOKEN");
+      }
+    };
+
+    fetchData();
+  }, [authContext.token]);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
