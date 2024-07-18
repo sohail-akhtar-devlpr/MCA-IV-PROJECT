@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
+import { IoAddSharp } from "react-icons/io5";
 
 function ConstraintField({ setFormData, formData, questionIndex }) {
-  console.log("EXECUTION 4");
 
   //constraint or explanation both are same.
   const [constraints, setConstraints] = useState(
@@ -75,19 +76,19 @@ function ConstraintField({ setFormData, formData, questionIndex }) {
               {constraints.length - 1 === index && (
                 <button
                   type="button"
-                  className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500"
+                  className="border-none px-4 py-2 text-white rounded-lg hover:bg-blue-700 "
                   onClick={handleAddConstraints}
                 >
-                  Add More
+                  <IoAddSharp />
                 </button>
               )}
               {constraints.length !== 0 && (
                 <button
                   type="button"
-                  className="close border-none px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 shadow-md shadow-gray-500"
+                  className="border-none px-4 py-2  text-white rounded-lg hover:bg-red-700"
                   onClick={() => handleRemoveConstraints(index)}
                 >
-                  Remove
+                   <RxCross2 />
                 </button>
               )}
             </div>
@@ -100,7 +101,7 @@ function ConstraintField({ setFormData, formData, questionIndex }) {
             className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500"
             onClick={() => showAddMore()}
           >
-            {constraintButtonText}
+            Add
           </button>
         ))}
     </div>

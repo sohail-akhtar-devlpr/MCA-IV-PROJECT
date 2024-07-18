@@ -1,12 +1,11 @@
 import React, { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
+import { IoAddSharp } from "react-icons/io5";
+
+
 
 function ExampleField({setFormData,formData, questionIndex }) {
 
-  console.log("EXECUTION 3");
-  // const [examples, setExamples] = 
-  // useState(
-  //           [{ exampleNumber: '', input: '', output: '', explanation: '' }]
-  //         );
   const [examples, setExamples] = useState(formData.questions[questionIndex].examples || [{ exampleNumber: '', input: '', output: '', explanation: '' }]);
   const [isVisible, setIsVisible] = useState(false);
   const [helperButtonIsVisible, setHelperButtonIsVisible] = useState(true);
@@ -29,7 +28,7 @@ function ExampleField({setFormData,formData, questionIndex }) {
   const handleAddExamples=()=>{
     const example =[...examples,{}]
     setExamples(example);
-    setExampleButtonText('Add More');
+    // setExampleButtonText('Add More');
   }
 
   // const handleRemoveExample = (indexToRemove) => {
@@ -120,18 +119,18 @@ function ExampleField({setFormData,formData, questionIndex }) {
                 (examples.length-1)===index &&
                 <button 
                   type="button"
-                  className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500" 
+                  className="text-white rounded-lg hover:bg-blue-700 px-4 py-2 " 
                   onClick={()=>handleAddExamples()}>
-                    Add More
+                    <IoAddSharp />
                 </button>
               }
               {
                 (examples.length) !== 0 &&
                 <button 
                   type="button"
-                  className="close border-none px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 shadow-md shadow-gray-500" 
+                  className="px-4 py-2 text-white rounded-lg hover:bg-red-600" 
                   onClick={()=>handleRemoveExample(index)}>
-                    Remove
+                    <RxCross2 />
                 </button>
               }
             </div>
@@ -147,7 +146,7 @@ function ExampleField({setFormData,formData, questionIndex }) {
           type="button"
           className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500" 
           onClick={()=>showAddMore()}>
-            {exampleButtonText}
+            Add
         </button>
       )
     }

@@ -40,8 +40,6 @@ const [isLoading, setLoading] = useState(true);
 
 const [showContestDetail, setShowContestDetail] = useState(true);
 
-console.log("EXECUTION 1");
-
 const auth = useAuth();
 const token = auth.token;
 // console.log("AUTH TOKEN:",token);
