@@ -185,7 +185,7 @@ function SideNavbar() {
   };
 
   return (
-    <div className="flex flex-col w-56">
+    <div className="flex flex-col w-56 border-r-2 border-dark-layer-1 rounded-xl shadow-sm shadow-pink-400">
       {/* logo */}
       <div className="flex items-center gap-2 px-1 py-1 border-red-500">
         <div className="w-10 h-10 relative">
@@ -197,7 +197,7 @@ function SideNavbar() {
       </div>
 
       {/* Display all the Sidebar Menu Items */}
-      <div className='flex-1 flex flex-col gap-0.5'>
+      <div className='flex-1 flex flex-col gap-0.5  border-l-brand-orange-s'>
         {DASHBOARD_SIDEBAR_MENUITEMS.map((items) => (
           <div key={items.title}>
             <MenuLink item={items} key={items.title} />

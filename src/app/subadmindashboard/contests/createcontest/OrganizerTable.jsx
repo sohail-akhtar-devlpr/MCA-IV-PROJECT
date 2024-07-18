@@ -9,7 +9,7 @@ function OrganizerTable({rows, deleteRow, editRow}) {
             <table className="w-11/12 block table-fixed border-collapse shadow-[0_10px_0] rounded-[10px] overflow-x-auto break-words">
               <thead className='bg-gray-50 border-b-2 border-gray-500'>
                 <tr>
-                  <th className="p-3 text-sm font-semibold tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-70 text-center">Contest Number</th>
+                  {/* <th className="p-3 text-sm font-semibold tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-70 text-center">Contest Number</th> */}
                   <th className="p-3 text-sm font-semibold tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-70 text-center">Organizer Name</th>
                   <th className="p-3 text-sm font-semibold tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-70 text-center">Organizer Type</th>
                   <th className="w-20 p-3 text-sm font-semibold tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-70 text-center">Contact Person</th>
@@ -26,7 +26,7 @@ function OrganizerTable({rows, deleteRow, editRow}) {
                   return( 
                   <tr key={idx} >
 
-                    <td className='p-3 text-gray-700 font-bold break-words'>{row.contestNumber}</td>
+                    {/* <td className='p-3 text-gray-700 font-bold break-words'>{row.contestNumber}</td> */}
                     <td className='p-3 text-sm text-gray-700 font-semibold break-words'>{row.organizerName}</td>
                     <td className='p-3 text-sm text-gray-700 font-semibold break-words'>{row.organizerType}</td>
                     <td className='p-3 text-sm text-gray-700 font-semibold break-words'>{row.contactIndividual}</td>

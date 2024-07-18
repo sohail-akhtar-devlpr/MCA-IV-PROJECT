@@ -15,7 +15,7 @@ const Layout=({children})=>{
       </div>
       <div className={styles.content}>
         <Headerbar />
-        <div className=' border-green-500 mt-3 '>
+        <div className='border border-green-500 mt-3 '>
           {children} {/*its like the outlet in Reactjs.This is also the component*/}
         </div>
       </div>

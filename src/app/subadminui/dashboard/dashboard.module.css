@@ -2,20 +2,20 @@
   display: flex;
   height: 100vh; /* 100% of the viewport height */
   width: 100vw;  /* 100% of the viewport width */
-  border: 8px solid blue;
+  /* border: 8px solid blue; */
   /* overflow-y: auto; */
   overflow: hidden;
 }
 
 .menu{
   display: flex;
-  border: 1px solid green;
+  /* border: 2px solid green; */
   /* background-color: var(--bgSoft); */
   padding: 20px;
 }
 
 .content{
   flex:4;
-  border: 8px solid yellow;
+  /* border: 8px solid yellow; */
   padding: 20px;
 }

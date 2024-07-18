@@ -51,7 +51,7 @@ function CreateContestpage() {
   const [errors, setErrors] = useState({});
    //PRIZE
 
-   const [prizeRows, setRows] = useState([]);
+   const [prizeRows, setPrizeRows] = useState([]);
   //  console.log("Prize Rows::",prizeRows)
 
    //ORGANIZER
@@ -103,7 +103,7 @@ function CreateContestpage() {
 
   //PRIZE
   const handleDeleteRow = (targetIndex) => {
-    setRows(prizeRows.filter((_, idx) => idx !== targetIndex));
+    setPrizeRows(prizeRows.filter((_, idx) => idx !== targetIndex));
   };
 
   //ORGANIZER
@@ -114,9 +114,9 @@ function CreateContestpage() {
   //PRIZE
   const handleAddMorePrizes = (newRow) => {
     if (rowtoEdit === null) {
-      setRows([...prizeRows, newRow]);
+      setPrizeRows([...prizeRows, newRow]);
     } else {
-      setRows(prizeRows.map((currRow, idx) => {
+      setPrizeRows(prizeRows.map((currRow, idx) => {
         return idx === rowtoEdit ? newRow : currRow;
       }));
       setRowtoEdit(null); // Reset rowtoEdit after editing
@@ -162,6 +162,8 @@ function CreateContestpage() {
     if (response.status === 201) {
       showToast('success', 'Contest Created Successfully');
       setFormData(initialFormData);
+      setPrizeRows([]); // Clear prize rows
+      setOrganizerRows([]); // Clear organizer rows
     }
   })
   .catch(error => {
@@ -264,7 +266,7 @@ function CreateContestpage() {
 
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Prizes (if any or add later if not decided yet)</label>
-          <button type="button" onClick={() => setPrizeModalOpen(true)} className="dark:bg-gray-700 rounded-lg p-2 border border-gray-400 shadow-orange-500 shadow-sm hover:border-fuchsia-500">
+          <button type="button" onClick={() => setPrizeModalOpen(true)} className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500">
             Add Prizes
           </button>
         </div>
@@ -289,7 +291,7 @@ function CreateContestpage() {
        
        <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Add Oganizer (if any or add later if not yet got the Sponsors)</label>
-          <button type="button"  onClick={() => setOrganizerModalOpen(true)}   className="dark:bg-gray-700 rounded-lg p-2 border border-gray-400 shadow-orange-500 shadow-sm hover:border-fuchsia-500">
+          <button type="button"  onClick={() => setOrganizerModalOpen(true)}   className="border-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md shadow-gray-500">
             Add Organizers
           </button>
         </div>
@@ -313,7 +315,7 @@ function CreateContestpage() {
         }
 
         <div className="flex justify-center">
-          <button type="submit" className="w-30 dark:bg-gray-700 rounded-lg p-2 border border-gray-400 shadow-orange-500 shadow-sm hover:border-fuchsia-500">
+          <button type="submit" className="border-none px-4 py-2 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-500 shadow-md shadow-gray-500">
             Create Contest
           </button>
         </div>
