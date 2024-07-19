@@ -1,15 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
 
 function Hero() {
   return (
-    <div className='border border-yellow-400'>
+    <div className='flex flex-col gap-y-4 border border-yellow-400'>
+      <div className='text-7xl'>
+        <h1 className='border border-yellow-600 text-red-700 text-center font-bold'>ALIGARH MUSLIM UNIVERSITY</h1>
+      </div>
       <div className='grid-cols-3 mx-auto grid lg:grid-cols-3 gap-[3rem] h-[100%] justify-center items-center border border-green-400'>
         <div className='col-span-2 border border-red-600 text-center'>
         <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
             Department of Computer Science
           </h1>
+          
           <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
             Aligarh Muslim University
           </h1>

@@ -1,10 +1,6 @@
 import SideNavbar from '@/app/subadminui/dashboard/sidenavbar/SideNavbar'
 import Headerbar from '@/app/subadminui/dashboard/headerbar/Headerbar'
 import styles from '@/app/subadminui/dashboard/dashboard.module.css'
-// import {getToken} from '@/app/api/CookieInfo/route'
-
-// const jwtToken = getToken();
-// console.log("jwt token in SUBADMINDASHBOARD::",jwtToken);
 
 const Layout=({children})=>{
 

@@ -1,40 +1,3 @@
-// {
-    //   prizeRank: "First Rank",
-    //   prizeName: "JetBrains All Products Pack",
-    //   prizeDescription: "A license for professional software development tools.",
-    //   prizeCategory: "Software Development",
-    //   prizeValue: "1000"
-    // },
-    // {
-    //   prizeRank: "Second Rank",
-    //   prizeName: "JetBrains All Products Pack",
-    //   prizeDescription: "A license for professional software development tools.",
-    //   prizeCategory: "Software Development",
-    //   prizeValue: "1000"
-    // },
-    // {
-    //   prizeRank: "Third Rank",
-    //   prizeName: "JetBrains All Products Pack",
-    //   prizeDescription: "A license for professional software development tools.",
-    //   prizeCategory: "Software Development",
-    //   prizeValue: "1000"
-    // }
-     // {
-    //   contestNumber: "2",
-    //   organizerName: "Aligarh Muslim University",
-    //   organizerType: "Educational Institute",
-    //   contactIndividual: "Sohail Akhatr",
-    //   mobileNumber: "8077659931",
-    //   email:"sa4512225@gmail.com"
-    // },
-    // {
-    //   contestNumber: "2",
-    //   organizerName: "Aligarh Muslim University",
-    //   organizerType: "Educational Institute",
-    //   contactIndividual: "Sohail Akhatr",
-    //   mobileNumber: "8077659931",
-    //   email:"sa4512225@gmail.com"
-    // },
 "use client";
 import React, { useState } from 'react';
 import { MdAccessTime } from "react-icons/md";
@@ -174,7 +137,7 @@ function CreateContestpage() {
         showToast('error', 'Some fields are mandatory to fill Look the form');
 
       } else if (error.response.status === 409) {
-        showToast('error', 'This Contest Number Already Exist');x
+        showToast('error', 'This Contest Number Already Exist');
       } else {
         showToast('error', 'Something went wrong while creating the contest, Please try again.');
       }

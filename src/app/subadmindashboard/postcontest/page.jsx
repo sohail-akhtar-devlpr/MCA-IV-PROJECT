@@ -1,34 +1,96 @@
 "use client"
-import React from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import showToast from '@/utils/Toast/showToast';
+import { useAuth } from "@/Security/AuthContext";
+import PostForm from './PostForm'
 
 function PostContestpage() {
-  const [isLive, setLive] = useState(true);
-  return (
-    isLive ? (
-      <div>
-      <div>Contest Rules: Outline the rules participants must follow.</div>
-      <div>Eligibility Criteria: Specify who can participate (age, skill level,etc)</div>
-      <div>Registration Deadline: When participants need to sign up b</div>
-      <div>Contact Information: For participants to reach out with quesstions</div>
-      <div>Judging Criteria: How entries will be evaluated.</div>
-      <div>Number of Participants: Maximum or minimum number of participant allowed</div>
-      <div>Schedule of Events: Outline the timeline for the contest day</div>
-      <div>Sponsorship Information: Any sponsors involved in the contest</div>
-      <div>Social Media Links: For promoting the contest or sharing results</div>
-      <div>FAQs: Frequently asked questions about the contest.</div>
-      <div>Cancellation Policy: What happens if the contest is canceled or resscheduled</div>
-      <div>Website/Link: A link to more information or registration details.</div>
-    </div>
-    ):(
-      <div className="text-yellow-700 px-4 py-3 rounded relative" role="alert">
-        <strong className="text-red-500 text-lg font-bold">No Contest to Post.</strong>
-        <span className="text-white font-semibold block sm:inline"> Kindly create a Contest.</span>
-        <span className="text-yellow-500 font-semibold block sm:inline"> Note: You cannot post a Contest until atleast a  Contest had been created.</span>
-      </div>
-    )
-  )
+  const [isCreated, setCreated] = useState(false);
+  const [contestNumbers, setContestNumbers] = useState([]);
+  // const [contestNumber, setContestNumber] = useState(" ");
+  const [selectedContestNumber, setSelectedContestNumber] = useState("");
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [showContestDetail, setShowContestDetail] = useState(true);
+  const [selectedContest, setSelectedContest] = useState(null);
 
+  const auth = useAuth();
+  const token = auth.token;
+
+  useEffect(() => {
+    const fetchContests = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/contest/created', {
+          headers: {
+            Authorization: 'Bearer ' + `${token}`
+          },
+          withCredentials: true
+        });
+        console.log("RESPONSE IN POST::", response.data);
+        if (response.data.length > 0) {
+          setCreated(true);
+          setContestNumbers(response.data.map(contest => contest.contestNumber));
+          setSelectedContest(response.data);
+          // setContestNumber(response.data[0]?.contestNumber || ""); // Single chosen contest, ensure data exists
+          setLoading(false);
+        }
+      } catch (error) {
+        // showToast('error', 'Error in fetching Contest Details');
+      }
+    };
+
+    fetchContests();
+  }, [token]);
+
+  const handleContestNumberClick = (contestNumber) => {
+    setSelectedContestNumber(contestNumber);
+    setIsFormOpen(true);
+    setShowContestDetail(false);
+  };
+
+  return (
+    isCreated ? (
+      <div className="flex flex-col h-screen border-yellow-400">
+        {showContestDetail && (
+          <div className="text-center mt-0 border-green-500">
+            <div className="text-xl font-bold m-0 text-green-500">Available Contests:</div>
+            {contestNumbers.map((contestNumber, index) => (
+              <div
+                key={index}
+                className="text-lg text-white font-bold"
+                onClick={() => handleContestNumberClick(contestNumber)}
+              >
+                <span className="cursor-pointer hover:underline">
+                  Contest Number: {contestNumber}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+        {isFormOpen &&
+         <PostForm 
+         contest={selectedContest} 
+         contestNumber={selectedContestNumber}
+         setIsFormOpen={setIsFormOpen} 
+         setShowContestDetail={setShowContestDetail}/>}
+      </div>
+    ) : (
+      <>
+      {
+        isLoading ? (
+          <div className="text-lg text-white font-bold">LOADING.......</div>
+        ):(
+          <div className="text-yellow-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="text-red-500 text-lg font-bold">No contest is currently live.</strong>
+          <span className="text-white font-semibold block sm:inline"> Kindly create a contest before proceeding.</span>
+          <span className="text-yellow-500 font-semibold block sm:inline"> Note: You cannot create questions until a contest is live.</span>
+        </div>
+        )
+      }
+    </>
+    )
+  );
 }
 
-export default PostContestpage
+export default PostContestpage;

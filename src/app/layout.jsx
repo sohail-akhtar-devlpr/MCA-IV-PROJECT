@@ -1,15 +1,12 @@
 import React from 'react';
-// import { Provider } from 'react-redux';
-import store from '@/Redux/store';
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-// import { usePathname } from "next/navigation";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import StoreProvider from '@/Redux/StoreProvider'
 import AuthProvider from '@/Security/AuthContext'
-// import getJwtTokenFromCookie from '@/app/api/GetJwtTokenFromCookie'
-// import getJwtTokenFromCookie from '@/app/FetchJwt/fetchJwt'
+// import { useAuth } from '@/Security/AuthContext';
+// import { Provider } from 'react-redux';
 // const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout(
@@ -22,15 +19,10 @@ export default function RootLayout(
 // }>
 ) {
 
-  // const jwtTokeninAuthContext = getJwtTokenFromCookie();
-  // console.log("jwt token in AuthContext::",jwtTokeninAuthContext);
+//   const auth = useAuth();
+// const token = auth.token;
+// console.log("AUTH TOKEN:",token);
 
-  // const pathNmae = usePathname();
-
-  // const jwtToken = getJwtTokenFromCookie();
-  // console.log("jwt token in layout::",jwtToken);
-
-  
   return (
     // <Provider store={store}>
       <html lang="en">
@@ -38,9 +30,7 @@ export default function RootLayout(
         <AuthProvider>
           <StoreProvider>
               <ToastContainer />
-              {/* {
-                pathNmae!== "/editorworkspace" &&!pathNmae.startsWith("/subadmindashboard")?<Navbar />:null
-              }    */}
+              <Navbar />
               {children}
           </StoreProvider>
           </AuthProvider>
