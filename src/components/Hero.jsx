@@ -1,59 +1,168 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
+import ContestTimer from '@/app/subadmindashboard/contesttimer/ContestTimer'
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 
 function Hero() {
+  const [contestData, setContestData] = useState(null);
+  const [isPostAvailable, setIsPostAvailable] = useState(false);
+  const [isContestLive, setIsContestLive] = useState(false);
+  
+  const [contestCountDownTime, setContestCountDownTime] = useState(0); // No initial duration
+
+  const [isContestClosed, setIsContestClosed] = useState(false);
+  const [contesWholetDuration, setContestWholeDuration] = useState(0);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-GB', options);
+  };
+
+  // Helper function to convert date and time string to milliseconds duration
+  const dateTimeToDuration = (dateStr, timeStr) => {
+    const parseTime = (timeStr) => {
+      const [time, modifier] = timeStr.split(/(AM|PM)/);
+      let [hours, minutes] = time.split(':').map(Number);
+      if (modifier === 'PM' && hours < 12) hours += 12;
+      if (modifier === 'AM' && hours === 12) hours = 0;
+      return { hours, minutes };
+    };
+
+    const { hours, minutes } = parseTime(timeStr);
+    const contestDate = new Date(dateStr);
+    contestDate.setHours(hours, minutes, 0, 0);
+
+    const now = new Date().getTime();
+    return contestDate.getTime() - now;
+  };
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/contest/posted').then(
+      (response) => {
+        console.log("Post Response:", response);
+        setContestData(response.data);
+        setIsPostAvailable(true);
+
+        // Extract and calculate duration based on date and the first part of the time range
+        const contestDate = response.data?.contestDate; // e.g., "2024-07-30"
+        const timeRange = response.data?.contestTime; // e.g., "10:00AM-11:00PM"
+        if (contestDate && timeRange) {
+          // const [startTime] = timeRange.split('-'); // Get the first part
+          const [startTime, endTime] = timeRange.split('-')
+          const contestCountdownStartDuration = dateTimeToDuration(contestDate, startTime);
+          setContestCountDownTime(contestCountdownStartDuration);
+          console.log("Contest Start Duration",contestCountdownStartDuration);
+          // console.log("end time:",endTime)
+          const contestCountdownEndDuration = dateTimeToDuration(contestDate, endTime);
+          setContestWholeDuration(contestCountdownEndDuration);
+          console.log("Contest End Duration",contestCountdownEndDuration);
+        }
+      }).catch((error) => {
+        console.log("Error While Getting The Post", error);
+      });
+  }, []);
+
+  const handleContestCountDownStartTimeExpired = (isExpired) => {
+    setIsContestLive(isExpired); 
+  };
+
+  const handleContestCountDownEndTimeExpired = (isExpired) => {
+    setIsContestClosed(isExpired); //IF TRUE MATLAB CONTEST IS CLOSED
+  };
+
+  console.log("Contest Data::", contestData);
+
+  console.log("IS CONTEST LIVE",isContestLive);
+  console.log("CONTEST COUNTDOWNTIME",contestCountDownTime);
+  console.log("IS CONTEST CLOSED",isContestClosed);
+  console.log("CONTEST WHOLE DURATION",contesWholetDuration);
   return (
-    <div className='flex flex-col gap-y-4 border border-yellow-400'>
-      <div className='text-7xl'>
-        <h1 className='border border-yellow-600 text-red-700 text-center font-bold'>ALIGARH MUSLIM UNIVERSITY</h1>
-      </div>
-      <div className='grid-cols-3 mx-auto grid lg:grid-cols-3 gap-[3rem] h-[100%] justify-center items-center border border-green-400'>
-        <div className='col-span-2 border border-red-600 text-center'>
-        <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
-            Department of Computer Science
-          </h1>
-          
-          <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
-            Aligarh Muslim University
-          </h1>
-          <h1 className='text-[15px] md:text-[25px] text-white font-bold'>
-            Organizing
-          </h1>
-          <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
-            AMU HACKS 3.0
-          </h1>
-          <h1 className='text-[15px] md:text-[20px] text-white font-bold'>
-           27-28 April, 2024
-           </h1>
-           <h1 className='text-[15px] md:text-[15px] text-white font-bold'>
-           10:00 AM to 12:00 PM
-          </h1>
-          <Link href="/contest" className='text-[15px] md:text-[25px] text-yellow-300 font-bold'>Register Now!!</Link>
-          <div>
-            {/* <h1 className='text-[15px] md:text-[15px] text-white text-left'>
-            Eligibility
-            </h1> */}
+    isPostAvailable && (
+      <div className='flex flex-col gap-y-4 border border-yellow-400'>
+        <div className='text-7xl'>
+          <h1 className='border border-yellow-600 text-red-700 text-center font-bold'>ALIGARH MUSLIM UNIVERSITY</h1>
+        </div>
+        <div className='grid-cols-3 mx-auto grid lg:grid-cols-3 gap-[3rem] h-[100%] justify-center items-center border border-green-400'>
+          <div className='col-span-2 border border-red-600 text-center'>
+            <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
+              Department of Computer Science
+            </h1>
+            <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
+              Aligarh Muslim University
+            </h1>
+            <h1 className='text-[15px] md:text-[25px] text-white font-bold'>
+              Organizing
+            </h1>
+            <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
+              {contestData?.contestName}
+            </h1>
+            <h1 className='text-[15px] md:text-[20px] text-white font-bold'>
+              {formatDate(contestData?.contestDate)}
+            </h1>
+            <h1 className='text-[15px] md:text-[15px] text-white font-bold'>
+              {contestData?.contestTime}
+            </h1>
+
+            {isContestLive && (
+              <>
+                <ContestTimer 
+                  duration={contestCountDownTime} 
+                  contestCountDownStartTimeExpired={handleContestCountDownStartTimeExpired} contestWholeDurationTime = {contesWholetDuration} 
+                  contestCountDownEndTimeExpired ={handleContestCountDownEndTimeExpired}
+                  isContestLive = {isContestLive}
+                  isContestClosed = {isContestClosed}/>
+                <div className='border border-[#fcba03] col-span-2 flex justify-center'>
+                  <div className='border border-[#1403fc]'>
+                    <h1 className='text-center text-3xl text-[#f4fc03] font-bold'>Contest is Live</h1>
+                    <div className='text-center '>
+                      <Link href="/joincontest" className='text-2xl text-[#f4fc03] font-bold'>Join Now!!</Link>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {isContestClosed && (
+              <>
+              <div className='border border-[#fcba03] col-span-2 flex justify-center'>
+                <div className='border border-[#1403fc]'>
+                  <h1 className='text-center text-3xl text-[#f4fc03] font-bold'>Contest Closed</h1>
+                </div>
+              </div>
+              </>
+            )}
+
+            {!isContestLive &&  !isContestClosed && contestCountDownTime !== 0 && ( // Check if contestDuration is set
+              <>
+                <div className=''>
+                  <h1 className='text-white text-2xl font-bold'>
+                    Go Live In
+                  </h1>
+                </div>
+
+                <ContestTimer 
+                  duration={contestCountDownTime} 
+                  contestCountDownStartTimeExpired={handleContestCountDownStartTimeExpired} contestWholeDurationTime = {contesWholetDuration} 
+                  contestCountDownEndTimeExpired ={handleContestCountDownEndTimeExpired}
+                  isContestLive = {isContestLive}
+                  isContestClosed = {isContestClosed}/>
+
+                <Link href="/contest" className='text-[15px] md:text-[25px] text-yellow-300 font-bold'>Register Now!!</Link>
+              </>
+            )}
+          </div>
+          <div className='w-[300px] hidden bg-[#55e6a5] relative lg:flex items-center rounded-lg h-[300px] border border-pink-600'>
+            <Image src="/public/images/circuit-board.jpg" alt='contest' layout='fill' className='object-cover rounded-full' />
+          </div>
+          <div className='border border-[#0388fc]'>
+            <h1>hi there fellow</h1>
           </div>
         </div>
-        <div className='w-[500px] hidden bg-[#55e6a5] relative lg:flex items-center rounded-lg h-[500px] border border-pink-600'>
-          <Image src="/public/images/circuit-board.jpg" alt='contest' layout='fill' className='object-cover rounded-full'/>
-        </div>
-        <div className='border border-[#fcba03] col-span-2 flex justify-center'>
-         <div className='border border-[#1403fc]'>
-          <h1 className='text-center text-3xl text-[#f4fc03] font-bold'>Contest is Live</h1>
-         <div className='text-center '>
-          <Link href="/joincontest" className='text-2xl text-[#f4fc03] font-bold'>Join Now!!</Link> 
-         </div> 
-         </div>
-        </div>
-
-        <div className='border border-[#0388fc]'>
-            <h1>hi there fellow</h1>
-        </div>
       </div>
-    </div>
+    )
   );
 }
 

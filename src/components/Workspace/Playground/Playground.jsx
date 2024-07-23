@@ -26,7 +26,44 @@ function Playground() {
       </div>
       <div className=' border-pink-500 w-full px-5 overflow-auto'>
 
-        {/* TestCase Heading */}
+      <div>
+      <div className='flex flex-col h-full'>
+            <div className='input-output-container flex flex-col flex-1 mt-2 space-y-1'>
+              <div className='input-header text-white'>
+                <b>input:</b>
+              </div>
+              <textarea className='bg-dark-layer-2 text-white text-sm font-semibold resize-none p-1'></textarea>
+            </div>
+
+            <div className='input-output-container flex flex-col flex-1 mt-2 space-y-1'>
+              <div className='output-header text-white'>
+                <b>output:</b>
+              </div>
+              <textarea className='bg-dark-layer-2 text-white text-sm font-semibold resize-none p-1'></textarea>
+            </div>
+          
+      </div>
+      </div>
+
+      </div>
+     </Split>
+
+     {/* Submit Button */}
+     {/* <div className=' border-pink-500 flex justify-center bg-dark-layer-1 absolute bottom-0 z-10 w-full pb-1'>
+      <button className='px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex bg-dark-green-s hover:bg-green-300 rounded-lg'>
+      Submit
+      </button>
+     </div> */}
+    </div>
+  )
+}
+
+export default Playground
+
+
+
+
+{/* TestCase Heading */}
         {/* <div className=' border-green-500 flex h-10 items-center space-x-6'>
           <div className=' border-red-700 relative flex flex-col justify-center h-full cursor-pointer'>
             <div className=' border-yellow-400 text-sm font-medium leading-5 text-white'>Test Cases</div>
@@ -34,14 +71,14 @@ function Playground() {
           </div>
         </div> */}
 
-        <div className=' border-green-500 flex h-10 items-center space-x-6'>
-          <div className=' border-red-700 relative flex flex-col justify-center h-full cursor-pointer'>
-            <div className=' border-yellow-400 text-sm font-medium leading-5 text-white'>Compiler</div>
-            {/* <hr className='absolute bottom-0 h-0.5 w-full rounded-full bg-white'/> */}
-          </div>
-        </div>
+        // <div className=' border-green-500 flex h-10 items-center space-x-6'>
+        //   <div className=' border-red-700 relative flex flex-col justify-center h-full cursor-pointer'>
+        //     <div className=' border-yellow-400 text-sm font-medium leading-5 text-white'>Compiler</div>
+        //     {/* <hr className='absolute bottom-0 h-0.5 w-full rounded-full bg-white'/> */}
+        //   </div>
+        // </div>
 
-        <div className='flex'>
+        // <div className='flex border border-red-700'>
 
           {/* case-1 */}
           {/* <div className='mr-2 items-start mt-2 text-white'>
@@ -69,7 +106,7 @@ function Playground() {
               </div>
             </div>
           </div> */}
-        </div>
+        {/* </div> */}
         
         {/* <div className='border border-green-500 font-semibold my-4'>
           <p className='text-sm font-medium mt-4 text-white'>Input:</p>
@@ -82,18 +119,3 @@ function Playground() {
             [0,1]
             </div>
         </div> */}
-
-        </div>
-     </Split>
-
-     {/* Submit Button */}
-     <div className=' border-pink-500 flex justify-center bg-dark-layer-1 absolute bottom-0 z-10 w-full pb-1'>
-      <button className='px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex bg-dark-green-s hover:bg-green-300 rounded-lg'>
-      Submit
-      </button>
-     </div>
-    </div>
-  )
-}
-
-export default Playground

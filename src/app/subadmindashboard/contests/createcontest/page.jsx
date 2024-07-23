@@ -11,6 +11,29 @@ import showToast from '@/utils/Toast/showToast';
 
 function CreateContestpage() {
 
+  const [timeFrom, setTimeFrom] = useState("")
+  const [timeTo, setTimeFTo] = useState("")
+  const [amPmFrom, setAmPmFrom] = useState('PM');
+  const [amPmTo, setAmPmTo] = useState('PM');
+
+  const handleTimeChange = (e)=>{
+    const {name, value} = e.target
+    console.log("name:",name);
+    console.log("value:",value);
+    if (name === 'contestTimeFrom') {
+      setTimeFrom(value);
+    } else if (name === 'contestTimeTo') {
+      setTimeFTo(value);
+    }
+  }
+
+  // You can now use contestTimeFrom and contestTimeTo variables
+  console.log("contestTimeFrom:", timeFrom);
+  console.log("contestTimeTo:", timeTo);
+
+  // const combinedTime = `${timeFrom}-${timeTo}`;
+  // console.log("combine time:",combinedTime);
+
   const [errors, setErrors] = useState({});
    //PRIZE
 
@@ -51,7 +74,8 @@ function CreateContestpage() {
     setFormData({...formData, [name]:value});
   }
 
-
+  console.log("FORM DATA::",formData);
+  
   //PRIZE
   const handleEditButton = (idx) => {
     setRowtoEdit(idx);
@@ -109,10 +133,11 @@ function CreateContestpage() {
 
     const formDataToSubmit = {
       ...formData,
+      contestTime:`${timeFrom}${amPmFrom}-${timeTo}${amPmTo}`,
       prize: prizeRows,
       contestOrganizer: organizerRows,
   };
-  console.log("FORM DATA::",formDataToSubmit);
+  console.log("Form Data To be submit::",formDataToSubmit);
     axios.post('http://localhost:8080/subadmin/create/contest', formDataToSubmit, {
     headers: {
       'Content-Type': 'application/json',
@@ -202,19 +227,68 @@ function CreateContestpage() {
             onChange={handleChange}/>
         </div>
 
-        <div>
+        <div className="space-y-4">
           <div className='flex items-center gap-x-1'>
-            <label htmlFor="contestTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Time <span>(Or add later in contest rules segment)</span></label>
-            <div className='relative top-[-4px]'><MdAccessTime /></div>
+            <label htmlFor="contestTimeFrom" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white mr-1">
+              Contest Time
+              <span>(Or add later in contest rules segment)</span>
+            </label>
+            <div className='relative top-[-4px]'>
+              <MdAccessTime />
+            </div>
           </div>
-          <input 
-            type='time' 
-            id="contestTime" 
-            name='contestTime'
-            className="block p-1 w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-            value={formData.contestTime} 
-            onChange={handleChange}/>
+          
+          <div className="flex gap-x-4">
+            <div className="flex-1">
+              <label htmlFor="contestTimeFrom" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">From</label>
+              <div className='flex items-center gap-x-2'>
+              <input
+                type="time"
+                id="contestTimeFrom"
+                name="contestTimeFrom"
+                className="block p-2 w-24 text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={timeFrom}
+                onChange={handleTimeChange}
+              />
+              <select
+                id="contestTimeFromAmPm"
+                name="contestTimeFromAmPm"
+                className="block text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={amPmFrom}
+                onChange={(e) => setAmPmFrom(e.target.value)}
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <label htmlFor="contestTimeTo" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">To</label>
+              <div className='flex items-center gap-x-2'>
+              <input
+                type="time"
+                id="contestTimeTo"
+                name="contestTimeTo"
+                className="block p-2 w-24 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={timeTo}
+                onChange={handleTimeChange}
+              />
+              <select
+                id="contestTimeToAmPm"
+                name="contestTimeToAmPm"
+                className="block text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={amPmTo}
+                onChange={(e) => setAmPmTo(e.target.value)}
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+              </div>
+            </div>
+          </div>
         </div>
+
 
         <div>
           <label htmlFor="contestVenue" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contest Venue <span>(Or add later in contest rules segment)</span></label>
