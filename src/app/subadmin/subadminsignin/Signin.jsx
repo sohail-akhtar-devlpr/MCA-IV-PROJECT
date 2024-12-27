@@ -44,8 +44,8 @@ function Signin() {
   };
 
   return (
-    <div className="grid grid-cols-12 border-red-600 mt-10 h-96">
-      <div className="col-span-4 col-start-5 border-green-400 rounded-3xl shadow-pink-400">
+    <div className="grid grid-cols-12 mt-10 h-96">
+      <div className="col-span-4 col-start-5 border-green-400 rounded-3xl shadow-sm shadow-fuchsia-500">
         <div className="border-yellow-300 py-5">
           <form className="space-y-6 px-6 pb-4" onSubmit={handleSubmit}>
             <h3 className="text-xl font-medium text-white">

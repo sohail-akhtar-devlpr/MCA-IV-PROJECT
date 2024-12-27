@@ -37,14 +37,14 @@ function Contestpage() {
         </Link>
       </div> 
 
-      <div className='flex items-center ml-5'>
+      {/* <div className='flex items-center ml-5'>
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
           <FaArrowCircleRight />
         </div>
         <Link href="/subadmindashboard/postcontest" className='text-white text-lg font-semibold hover:underline pl-2'>
           Post Questions
         </Link>
-      </div> 
+      </div>  */}
 
       <div className='flex items-center ml-5'>
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
@@ -55,14 +55,14 @@ function Contestpage() {
         </Link>
       </div> 
 
-      <div className='flex items-center ml-5'>
+      {/* <div className='flex items-center ml-5'>
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
           <FaArrowCircleRight />
         </div>
         <Link href="/subadmindashboard/postcontest" className='text-white text-lg font-semibold hover:underline pl-2'>
           Set Contest Duration
         </Link>
-      </div> 
+      </div>  */}
 
       {/* <div className='flex items-center ml-5'>
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
@@ -73,14 +73,14 @@ function Contestpage() {
         </Link>
       </div>  */}
 
-      <div className='flex items-center ml-5'>
+      {/* <div className='flex items-center ml-5'>
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>
           <FaArrowCircleRight />
         </div>
         <Link href="/subadmindashboard/endcontest" className='text-white text-lg font-semibold hover:underline pl-2'>
           End Contest
         </Link>
-      </div> 
+      </div>  */}
 
       <div className='flex items-center ml-5'>
         <div className='rounded-full h-5 w-5 flex items-center justify-center bg-sky-500'>

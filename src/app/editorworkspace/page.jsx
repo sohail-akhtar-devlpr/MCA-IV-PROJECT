@@ -5,7 +5,7 @@ import WorkspaceTopbar from '@/components/WorkspaceTopbar'
 function WorkspacePage() {
   return (
     <>
-      < WorkspaceTopbar />
+      <WorkspaceTopbar />
       <Workspace />
     </>
   )

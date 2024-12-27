@@ -3,19 +3,19 @@ export const navItems = [
     id:1,
     title:"Home",
     path:"/",
-    cName:"flex items-center justify-center h-12 "
+    cName:"flex items-center justify-center h-12 font-serif"
   },
   {
     id:2,
     title:"About Us",
     path:"/aboutus",
-    cName:"flex items-center justify-center h-12 "
+    cName:"flex items-center justify-center h-12 font-serif"
   },
   {
     id:3,
     title:"Contest",
     path:"/contest",
-    cName:"flex items-center justify-center h-12 "
+    cName:"flex items-center justify-center h-12 font-serif"
   },
   // {
   //   id:4,

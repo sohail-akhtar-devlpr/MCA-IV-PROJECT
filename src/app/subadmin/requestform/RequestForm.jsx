@@ -92,7 +92,7 @@ function RequestForm() {
 
   return (
     <div className='grid grid-cols-12 border border-blue-400'>
-      <div className="col-span-4 col-start-5 border-green-400 rounded-3xl shadow-2xl shadow-pink-400">
+      <div className="col-span-4 col-start-5 border-green-400 rounded-3xl shadow-md shadow-pink-400">
         <div className='border-yellow-300 py-5'>
           <form className="space-y-6 px-6 pb-4" onSubmit={handleSubmit}>
 

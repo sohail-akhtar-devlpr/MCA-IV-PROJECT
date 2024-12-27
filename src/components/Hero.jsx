@@ -43,6 +43,7 @@ function Hero() {
     axios.get('http://localhost:8080/contest/posted').then(
       (response) => {
         console.log("Post Response:", response);
+        localStorage.setItem("contestId",response.data.contestNumber)
         setContestData(response.data);
         setIsPostAvailable(true);
 
@@ -81,29 +82,32 @@ function Hero() {
   console.log("CONTEST WHOLE DURATION",contesWholetDuration);
   return (
     isPostAvailable && (
-      <div className='flex flex-col gap-y-4 border border-yellow-400'>
-        <div className='text-7xl'>
+      <div className='bg-white flex flex-col justify-center items-center gap-y-4  border-purple-800 p-10 opacity-90'>
+        {/* <div className='text-7xl'>
           <h1 className='border border-yellow-600 text-red-700 text-center font-bold'>ALIGARH MUSLIM UNIVERSITY</h1>
-        </div>
-        <div className='grid-cols-3 mx-auto grid lg:grid-cols-3 gap-[3rem] h-[100%] justify-center items-center border border-green-400'>
-          <div className='col-span-2 border border-red-600 text-center'>
-            <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
+        </div> */}
+        <div className='bg-white shadow-2xl flex justify-center items-center  border-green-400'>
+          <div className='col-span-2  border-red-600 text-center rounded-lg'>
+            <h1 className=' text-teal-600 text-[20px] md:text-[30px] font-bold'>
               Department of Computer Science
             </h1>
-            <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
+            <h1 className='text-[20px] md:text-[30px] text-teal-600 font-bold'>
               Aligarh Muslim University
             </h1>
-            <h1 className='text-[15px] md:text-[25px] text-white font-bold'>
+            <h1 className='text-[15px] md:text-[25px] text-red-500 font-bold'>
               Organizing
             </h1>
-            <h1 className='text-[20px] md:text-[30px] text-white font-bold'>
+            <h1 className='text-[20px] md:text-[30px] text-teal-400 font-bold'>
               {contestData?.contestName}
             </h1>
-            <h1 className='text-[15px] md:text-[20px] text-white font-bold'>
+            <h1 className='text-[15px] md:text-[20px]  text-teal-600 font-bold'>
               {formatDate(contestData?.contestDate)}
             </h1>
-            <h1 className='text-[15px] md:text-[15px] text-white font-bold'>
+            <h1 className='text-[15px] md:text-[15px] text-teal-600 font-bold'>
               {contestData?.contestTime}
+            </h1>
+            <h1 className='text-[15px] md:text-[15px] text-teal-600 font-bold'>
+              contest ID:{contestData?.contestNumber}
             </h1>
 
             {isContestLive && (
@@ -114,11 +118,11 @@ function Hero() {
                   contestCountDownEndTimeExpired ={handleContestCountDownEndTimeExpired}
                   isContestLive = {isContestLive}
                   isContestClosed = {isContestClosed}/>
-                <div className='border border-[#fcba03] col-span-2 flex justify-center'>
-                  <div className='border border-[#1403fc]'>
-                    <h1 className='text-center text-3xl text-[#f4fc03] font-bold'>Contest is Live</h1>
+                <div className='border-[#fcba03] col-span-2 flex justify-center'>
+                  <div className=' border-[#1403fc]'>
+                    <h1 className='text-center text-3xl text-green-700 font-bold'>Contest is Live</h1>
                     <div className='text-center '>
-                      <Link href="/joincontest" className='text-2xl text-[#f4fc03] font-bold'>Join Now!!</Link>
+                      <Link href="/joincontest" className='hover:bg-gray-200 text-2xl text-teal-600 font-bold rounded-lg'>Join Now!!</Link>
                     </div>
                   </div>
                 </div>
@@ -127,9 +131,9 @@ function Hero() {
 
             {isContestClosed && (
               <>
-              <div className='border border-[#fcba03] col-span-2 flex justify-center'>
-                <div className='border border-[#1403fc]'>
-                  <h1 className='text-center text-3xl text-[#f4fc03] font-bold'>Contest Closed</h1>
+              <div className=' border-[#fcba03] col-span-2 flex justify-center'>
+                <div className=' border-[#1403fc]'>
+                  <h1 className='text-center text-3xl text-red-700 font-bold'>Contest Closed</h1>
                 </div>
               </div>
               </>
@@ -150,16 +154,16 @@ function Hero() {
                   isContestLive = {isContestLive}
                   isContestClosed = {isContestClosed}/>
 
-                <Link href="/contest" className='text-[15px] md:text-[25px] text-yellow-300 font-bold'>Register Now!!</Link>
+                <Link href="/contest" className='text-[15px] md:text-[25px] text-orange-700 font-bold'>Register Now!!</Link>
               </>
             )}
           </div>
-          <div className='w-[300px] hidden bg-[#55e6a5] relative lg:flex items-center rounded-lg h-[300px] border border-pink-600'>
+          {/* <div className='w-[300px] hidden bg-[#55e6a5] relative lg:flex items-center rounded-lg h-[300px] border border-pink-600'>
             <Image src="/public/images/circuit-board.jpg" alt='contest' layout='fill' className='object-cover rounded-full' />
-          </div>
-          <div className='border border-[#0388fc]'>
+          </div> */}
+          {/* <div className='border border-[#0388fc]'>
             <h1>hi there fellow</h1>
-          </div>
+          </div> */}
         </div>
       </div>
     )

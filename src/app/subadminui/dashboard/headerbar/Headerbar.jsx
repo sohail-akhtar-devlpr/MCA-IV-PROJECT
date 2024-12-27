@@ -73,7 +73,7 @@ function Headerbar() {
     <div className={classNames("shadow-sm shadow-pink-600", styles.headerContainer)}>
       <div className={styles.title}>{pathname.split("/").pop()}</div>
       <div className="flex items-center gap-2 mr-2 border-green-500">
-        <Popover className="relative">
+        {/* <Popover className="relative">
           {({ open }) => (
             <>
               <Popover.Button
@@ -104,7 +104,7 @@ function Headerbar() {
               </Transition>
             </>
           )}
-        </Popover>
+        </Popover> */}
         <Menu as="div" className="relative">
           <div>
             <Menu.Button className="ml-2 inline-flex">

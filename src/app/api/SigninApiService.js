@@ -10,3 +10,11 @@ export const signinApiService = (email, password) =>
       withCredentials:true,
     }
   );
+
+export const getQuestionDetailsApiService = (contestNumber, jwtToken)=>
+  apiClient.get(`/subadmin/contest-question-set?contestNumber=${contestNumber}`,{
+    headers:{
+      Authorization: 'Bearer ' + `${jwtToken}`
+    },
+    withCredentials: true,
+});

@@ -1,59 +1,73 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Split from 'react-split'
-import CodeMirror from '@uiw/react-codemirror'
-import { vscodeDark } from '@uiw/codemirror-theme-vscode'
-import { javascript } from '@codemirror/lang-javascript'
+import { useState } from 'react'
+import CodeOutputArea from './CodeOutputArea'
+import { Editor } from '@monaco-editor/react'
+import {BOILERPLATE} from './Boilerplate'
 
 import PlaygroundNav from '@/components/Workspace/Playground/PlaygroundNav/PlaygroundNav'
 
 function Playground() {
+  const [language, setLanguage] = useState("java");
+  const [output, setOutput] = useState(null);
 
-  const boilerPlate=`function twoSum(num, target){
-    //write your code here
-  }`;
+  const editorRef = useRef();
+
+  const editorOptions = {
+    fontSize: "18",
+    wordWrap: "on",
+  }
+
+  const onMount = (editor)=>{
+    editorRef.current = editor;
+    // console.log("Editor::",editor);
+    editor.focus();
+  };
+
   return (
-    <div className='border border-green-500 flex flex-col bg-dark-layer-1 relative'>
-     <PlaygroundNav />
+    <div className=' border-green-500 flex flex-col bg-dark-layer-1 relative'>
+
+     <PlaygroundNav
+     language={language}
+     onChangeLanguage={setLanguage}
+     editorRef={editorRef}
+     setOutput={setOutput}
+     />
 
      <Split className='h-[calc(100vh-96px)]' direction='vertical' sizes={[60,40]} minSize={60} snapOffset={0}>
       <div className="w-full overflow-auto">
-        <CodeMirror
-        value={boilerPlate}
-        theme={vscodeDark}
-        extensions={[javascript()]}
-        style={{fontSize:16}}
-        />
+
+        {/* Editor    */}
+        <Editor 
+          language={language}
+          options={editorOptions}
+          theme='vs-dark'
+          // onChange={onChangeCode}
+          value={BOILERPLATE[language] || ''}
+          onMount={onMount}
+          />
       </div>
+
       <div className=' border-pink-500 w-full px-5 overflow-auto'>
 
       <div>
-      <div className='flex flex-col h-full'>
-            <div className='input-output-container flex flex-col flex-1 mt-2 space-y-1'>
-              <div className='input-header text-white'>
-                <b>input:</b>
-              </div>
-              <textarea className='bg-dark-layer-2 text-white text-sm font-semibold resize-none p-1'></textarea>
+        <div className='flex flex-col h-full'>
+          <div className='input-output-container flex flex-col flex-1 mt-2 space-y-1'>
+            <div className='input-header text-white'>
+              <b>input:</b>
             </div>
+            <textarea className='bg-dark-layer-2 text-white text-sm font-semibold resize-none p-1'></textarea>
+          </div>
 
-            <div className='input-output-container flex flex-col flex-1 mt-2 space-y-1'>
-              <div className='output-header text-white'>
-                <b>output:</b>
-              </div>
-              <textarea className='bg-dark-layer-2 text-white text-sm font-semibold resize-none p-1'></textarea>
-            </div>
-          
-      </div>
+          {/* OUTPUT */}
+          <CodeOutputArea output={output}/>
+            
+        </div>
       </div>
 
       </div>
      </Split>
 
-     {/* Submit Button */}
-     {/* <div className=' border-pink-500 flex justify-center bg-dark-layer-1 absolute bottom-0 z-10 w-full pb-1'>
-      <button className='px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex bg-dark-green-s hover:bg-green-300 rounded-lg'>
-      Submit
-      </button>
-     </div> */}
     </div>
   )
 }
@@ -62,7 +76,7 @@ export default Playground
 
 
 
-
+// Do not Delete
 {/* TestCase Heading */}
         {/* <div className=' border-green-500 flex h-10 items-center space-x-6'>
           <div className=' border-red-700 relative flex flex-col justify-center h-full cursor-pointer'>
@@ -119,3 +133,90 @@ export default Playground
             [0,1]
             </div>
         </div> */}
+
+
+
+
+// import React, { useRef } from 'react'
+// import Split from 'react-split'
+// import { useState } from 'react'
+// // import CodeMirror from '@uiw/react-codemirror'
+// // import { vscodeDark } from '@uiw/codemirror-theme-vscode'
+// // import { javascript } from '@codemirror/lang-javascript'
+// import CodeOutputArea from './CodeOutputArea'
+// import { Editor } from '@monaco-editor/react'
+// import {BOILERPLATE} from './Boilerplate'
+
+// import PlaygroundNav from '@/components/Workspace/Playground/PlaygroundNav/PlaygroundNav'
+
+// function Playground() {
+//   const [language, setLanguage] = useState("java");
+//   const [output, setOutput] = useState(null);
+
+//   const editorRef = useRef();
+
+//   const editorOptions = {
+//     fontSize: "18",
+//     wordWrap: "on",
+//   }
+
+//   // const onChangeCode=(newCode)=>{
+//   //   console.log("NEW CODE::",newCode);
+//   // }
+//   const onMount = (editor)=>{
+//     editorRef.current = editor;
+//     editor.focus();
+//   };
+
+//   // console.log("OUTPUT IN PLAYGROUND:",output);
+//   return (
+//     <div className=' border-green-500 flex flex-col bg-dark-layer-1 relative'>
+//      <PlaygroundNav
+//      language={language}
+//      onChangeLanguage={setLanguage}
+//      editorRef={editorRef}
+//      setOutput={setOutput}
+//      />
+
+//      <Split className='h-[calc(100vh-96px)]' direction='vertical' sizes={[60,40]} minSize={60} snapOffset={0}>
+//       <div className="w-full overflow-auto">
+//         {/* <CodeMirror
+//         value={boilerPlate}
+//         theme={vscodeDark}
+//         extensions={[javascript()]}
+//         style={{fontSize:16}}
+//         /> */}
+//         <Editor 
+//           language={language}
+//           options={editorOptions}
+//           theme='vs-dark'
+//           // onChange={onChangeCode}
+//           value={BOILERPLATE[language] || ''}
+//           onMount={onMount}
+//           />
+//       </div>
+//       <div className=' border-pink-500 w-full px-5 overflow-auto'>
+
+//       <div>
+//         <div className='flex flex-col h-full'>
+//           <div className='input-output-container flex flex-col flex-1 mt-2 space-y-1'>
+//             <div className='input-header text-white'>
+//               <b>input:</b>
+//             </div>
+//             <textarea className='bg-dark-layer-2 text-white text-sm font-semibold resize-none p-1'></textarea>
+//           </div>
+
+//           {/* OUTPUT */}
+//           <CodeOutputArea output={output}/>
+            
+//         </div>
+//       </div>
+
+//       </div>
+//      </Split>
+
+//     </div>
+//   )
+// }
+
+// export default Playground

@@ -11,6 +11,7 @@
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
     "@headlessui/react": "^1.7.19",
+    "@monaco-editor/react": "^4.6.0",
     "@reduxjs/toolkit": "^2.2.6",
     "@uiw/codemirror-theme-vscode": "^4.21.25",
     "@uiw/react-codemirror": "^4.21.25",

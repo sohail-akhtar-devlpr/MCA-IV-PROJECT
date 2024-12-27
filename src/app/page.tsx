@@ -1,3 +1,5 @@
+import HomepageFirst from '@/components/HomepageFirst'
+import HomepageSecond from '@/components/HomepageSecond'
 import Hero from '@/components/Hero'
 
 export const metadata={
@@ -7,7 +9,9 @@ export const metadata={
 export default function Home() {
   return(
     <div className="border-2 border-red-700 overflow-x-hidden">
-        <Hero />
+      <HomepageFirst />
+      {/* <HomepageSecond /> */}
+      <Hero />
    </div>
   )
 }

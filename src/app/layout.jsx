@@ -31,7 +31,7 @@ export default function RootLayout(
           <StoreProvider>
               <ToastContainer />
               <Navbar />
-              {children}
+               {children} {/*page.jsx replaces the children prop in the layout.jsx to form the complete UI we see in the browser */}
           </StoreProvider>
           </AuthProvider>
         </body>
@@ -39,3 +39,7 @@ export default function RootLayout(
     // </Provider>
   );
 }
+
+// RootLayout is a React component that serves as a foundational layout for your application. It typically wraps around your main content and provides consistent structure, styles, and shared functionality,
+
+// children is a special prop in React that represents the content or components passed between the opening and closing tags of a parent component. It's a placeholder for dynamic content.

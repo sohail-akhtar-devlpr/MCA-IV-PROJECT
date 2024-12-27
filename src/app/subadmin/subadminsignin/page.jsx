@@ -7,7 +7,7 @@ export const metadata={
 
 function Signinpage() {
   return(
-    <div className='border border-pink-600 h-full'>
+    <div className='h-full'>
       <Signin />
     </div>
   )

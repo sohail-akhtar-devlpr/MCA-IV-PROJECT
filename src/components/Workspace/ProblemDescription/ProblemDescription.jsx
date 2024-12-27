@@ -1,13 +1,54 @@
 import React from 'react'
 import QuestionCarousels from '../Playground/PlaygroundNav/QuestionCarousels'
 import QuestionPalette from '@/components/Workspace/Playground/PlaygroundNav/QuestionPalette'
+import { useAuth } from "@/Security/AuthContext";
+import showToast from '@/utils/Toast/showToast'
+import axios from 'axios'
 
 function ProblemDescription() {
-  const totalNumberOfQuestions=9
+
+  
+  // const auth = useAuth();
+  // console.log("Authcontext:",auth)
+  // const token = auth.token;
+
+  // const totalNumberOfQuestions=4
   const questionsNumber=1
+  const auth = useAuth();
+  console.log("auth:",auth);
+  
+
+  // const contestNumber =  localStorage.getItem("contestId")
+  // const token = localStorage.getItem("jwtToken")
+  // console.log("contestNumber::",contestNumber);
+  // // console.log("token number::",token);
+  
+  // const useAuth = useAuth();
+  // useAuth.getQuestionDetails(contestNumber, token);
+  // try {
+  //   axios.get(`http://localhost:8080/subadmin/contest-question-set?contestNumber=${contestNumber}`,{
+  //     headers:{
+  //       Authorization: 'Bearer ' + `${token}`
+  //     },
+  //     withCredentials: true,
+  //   })
+  //   .then((response)=>{
+  //     console.log("RESPONSE OF QUESTIONS::",response);
+      
+  //   })
+  //   .catch((error)=>{
+  //     console.log("Error",error);
+      
+  //   })
+    
+  // } catch (error) {
+  //   showToast("error","Something went wrong in loading the question..Refresh the page")
+  // }
+
+
 
   return (
-    <div className='border border-yellow-400 bg-dark-layer-1'>
+    <div className=' border-yellow-400 bg-dark-layer-1'>
 
       {/* TABS */}
       {/* <div className=' border-indigo-700 flex h-11 w-full items-center pt-2 bg-dark-layer-2 text-white'>
@@ -16,24 +57,24 @@ function ProblemDescription() {
         </div>
       </div> */}
 
-      <div className='border border-green-500 flex flex-col px-0 py-4 h-[calc(100vh-96px)] overflow-y-auto'>
-      <div className='flex  fixed w-1/2 z-10border border-green-500 mt-[-16px]'>
+      <div className=' border-green-500 flex flex-col px-0 py-4 h-[calc(100vh-96px)] overflow-y-auto'>
+      {/* <div className='flex  fixed w-1/2 z-10  border-green-500 mt-[-16px]'>
         <div className=' text-white text-center ml-2 w-[200px] h-[200px] border border-red-500'>CAMERA</div>
-        {/* <div className='ml-2 w-[200px] h-[200px] border border-red-500 grid grid-cols-3'> <QuestionCarousels data={totalNumberOfQuestions} /></div> */}
+        <div className='ml-2 w-[200px] h-[200px] border border-red-500 grid grid-cols-3'> <QuestionCarousels data={totalNumberOfQuestions} /></div>
         <div className='flex flex-col items-center justify-center ml-2 w-[200px] h-[200px] border-red-500'> 
           <h1 className='text-lg font-bold text-white'>Questions:</h1>
           <QuestionPalette data={totalNumberOfQuestions}/>
         </div>
-      </div>
+      </div> */}
 
         {/* Content Section */}
-        <div className='border border-pink-500 px-5 mt-[210px]'>
+        <div className=' border-pink-500 px-5'>
         
           {/* Problem Heading */}
             <div className=' border-orange-500 w-full'>
-              {/* <div className=' border-red-600 flex space-x-4'>
-                <div className=' border-violet-600 flex-1 mr-2 text-lg text-white font-medium'>1.Two Sum</div>
-              </div> */}
+              <div className=' border-red-600 flex space-x-4 items-center justify-center'>
+                <div className=' border-violet-600 mr-2 text-lg text-white font-medium'>Two Sum</div>
+              </div>
               <div className=' border-red-600 flex space-x-4'>
                 <div className=' border-violet-600 flex-1 mr-2 text-lg text-white font-medium'>Question {questionsNumber}</div>
               </div>
@@ -41,7 +82,7 @@ function ProblemDescription() {
 
               </div>
               {/* Problem Statements */}
-              <div className='border border-yellow-400 text-white text-sm'>
+              <div className=' border-yellow-400 text-white text-sm'>
                   <p className='mt-3'>
                       Given an array of integers <code>nums</code> and an integer <code>target</code>, return
                       <em>indices of the two numbers such that they add up to</em> <code>target</code>.
